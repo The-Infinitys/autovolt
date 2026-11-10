@@ -292,16 +292,14 @@ async fn run_daemon(config: Config) -> Result<(), Box<dyn std::error::Error>> {
     };
 
     let conn = Connection::system().await?;
+
+    // 1. まずWell-known nameを要求する
+    conn.request_name("net.hadess.PowerProfiles").await?;
+
+    // 2. その後にオブジェクトパスをアタッチ
     conn.object_server()
         .at("/net/hadess/PowerProfiles", daemon)
         .await?;
-    conn.request_name("net.hadess.PowerProfiles").await?;
-
-    println!(
-        "[autovolt] Daemon started (zbus v6). Using config: {:?}",
-        config
-    );
-
     // タスク1: ACアダプタ電力監視ループ
     let monitor_conn = conn.clone();
     let monitor_profile = active_profile.clone();
