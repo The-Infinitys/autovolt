@@ -1,0 +1,12 @@
+[package]
+name = "autovolt"
+version = "1.0.0"
+edition = "2024"
+
+[dependencies]
+tokio = { version = "1", features = ["full"] }
+zbus = { version = "6", features = ["tokio"] }
+futures-util = { version = "0.3", default-features = false }
+clap = { version = "4.6.7", features = ["derive"] }
+serde = { version = "1.0.229", features = ["derive"] }
+toml = "1.2.1"
